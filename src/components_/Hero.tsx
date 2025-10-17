@@ -190,7 +190,7 @@ export default function Hero(){
                             
                             <button
                                 onClick={() => fileInputRef.current?.click()}
-                                className="px-6 py-2 border border-dashed text-white rounded-lg hover:bg-blue-600 transition-colors"
+                                className="px-6 py-2 border border-dashed cursor-pointer text-white rounded-lg hover:bg-blue-600 transition-colors"
                             >
                                 Choose Files
                             </button>
@@ -236,7 +236,7 @@ export default function Hero(){
                                         </a>
                                         <button
                                             onClick={() => handleCopyLink(file.url)}
-                                            className="px-4 py-2 border border-dashed text-white rounded-lg hover:bg-blue-600 transition-colors"
+                                            className="px-4 py-2 border border-dashed cursor-pointer text-white rounded-lg hover:bg-blue-600 transition-colors"
                                         >
                                             Copy Link
                                         </button>

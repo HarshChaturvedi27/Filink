@@ -1,5 +1,4 @@
-import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 
 const s3 = new S3Client({ 
@@ -48,14 +47,9 @@ export async function POST(request: NextRequest) {
     await s3.send(command);
     console.log('File uploaded successfully to S3:', key);
 
-    // Generate presigned download URL that triggers download
-    const downloadCommand = new GetObjectCommand({
-      Bucket: process.env.S3_BUCKET,
-      Key: key,
-      ResponseContentDisposition: `attachment; filename="${file.name}"`,
-    });
-
-    const downloadUrl = await getSignedUrl(s3, downloadCommand, { expiresIn: 3600 });
+    // Generate clean download URL (no credentials exposed)
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const downloadUrl = `${baseUrl}/api/download/${encodeURIComponent(key)}`;
 
     return NextResponse.json({
       success: true,
