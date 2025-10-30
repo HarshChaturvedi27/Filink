@@ -163,13 +163,13 @@ export default function Hero(){
                             <div className="flex gap-3 justify-center">
                                 <button
                                     onClick={handleStartUpload}
-                                    className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                                    className="px-6 py-2 border border-dashed text-white rounded-lg hover:bg-green-600 transition-colors"
                                 >
                                     Upload Files
                                 </button>
                                 <button
                                     onClick={clearSelection}
-                                    className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                                    className="px-6 py-2 text-white rounded-lg hover:bg-red-500 hover:border hover:border-dashed transition-colors"
                                 >
                                     Clear
                                 </button>
