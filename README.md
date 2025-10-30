@@ -109,8 +109,3 @@ npm start
 # Run linting
 npm run lint
 ```
-
-## License
-
-MIT License
->>>>>>> c9fea53 (made the logic for handling files uploads)
