@@ -10,7 +10,7 @@ const s3 = new S3Client({
   }
 });
 
-export async function getPresignedUrl(key: string, contentType: string) {
+async function getPresignedUrl(key: string, contentType: string) {
   console.log('Generating presigned URL for:', { key, contentType });
   
   const command = new PutObjectCommand({
@@ -29,7 +29,7 @@ export async function getPresignedUrl(key: string, contentType: string) {
   }
 }
 
-export async function getSignedDownloadUrl(key: string) {
+async function getSignedDownloadUrl(key: string) {
   console.log('Generating download URL for:', { key });
   
   const command = new GetObjectCommand({
