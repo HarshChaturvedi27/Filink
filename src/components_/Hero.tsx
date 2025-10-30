@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import { TiPlus } from "react-icons/ti";
 import { uploadToS3Server } from "@/utils/upload";
+import { useToast } from "./ToastContainer";
 
 export default function Hero() {
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -19,6 +20,7 @@ export default function Hero() {
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isDragOver, setIsDragOver] = useState(false);
+    const { showToast } = useToast();
 
     const handleUpload = async (files: FileList, folderPath?: string) => {
         if (!files || files.length === 0) return;
@@ -54,20 +56,39 @@ export default function Hero() {
 
             setUploadedFiles((prev) => [...prev, ...successfulUploads]);
 
+            // Show success toast for successful uploads
+            if (successfulUploads.length > 0) {
+                showToast({
+                    message: `Successfully uploaded ${successfulUploads.length} file${successfulUploads.length > 1 ? 's' : ''}`,
+                    type: "success"
+                });
+            }
+
             if (failedUploads.length > 0) {
                 const errorMessages = failedUploads.map((result) =>
                     result.error
                 ).join(", ");
                 setError(`Upload failed: ${errorMessages}`);
                 console.error("Failed uploads:", failedUploads);
+                
+                // Show error toast for failed uploads
+                showToast({
+                    message: `Failed to upload ${failedUploads.length} file${failedUploads.length > 1 ? 's' : ''}`,
+                    type: "error"
+                });
             }
         } catch (err) {
             console.error("Upload error:", err);
-            setError(
-                `Upload failed: ${
-                    err instanceof Error ? err.message : "Unknown error"
-                }`,
-            );
+            const errorMessage = `Upload failed: ${
+                err instanceof Error ? err.message : "Unknown error"
+            }`;
+            setError(errorMessage);
+            
+            // Show error toast for general upload errors
+            showToast({
+                message: errorMessage,
+                type: "error"
+            });
         } finally {
             setIsUploading(false);
             setUploadProgress(0);
@@ -114,11 +135,16 @@ export default function Hero() {
     const handleCopyLink = (url: string) => {
         navigator.clipboard.writeText(url)
             .then(() => {
-                // TODO: Add a proper toast notification
-                alert("Link copied to clipboard");
+                showToast({
+                    message: "Link copied to clipboard",
+                    type: "success"
+                });
             })
             .catch(() => {
-                alert("Failed to copy link");
+                showToast({
+                    message: "Failed to copy link",
+                    type: "error"
+                });
             });
     };
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Patrick_Hand } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { ToastProvider } from "@/components_/ToastContainer";
 import "./globals.css";
 
 const patrickHand = Patrick_Hand({
@@ -24,7 +25,9 @@ export default function RootLayout({
         className={`${patrickHand.className} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          {children}
+          <ToastProvider>
+            {children}
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>
